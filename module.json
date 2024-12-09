@@ -1,2393 +1,4007 @@
 {
-   "name": "OBS Websocket",
-   "type": "WebSocket Client",
-   "path": "Software",
-   "version": "2.0.8",
-   "description": "To control OBS by Websocket. Module compatible with OBS Websocket 5 or more (directly integrated in OBS 28 or more).  To know all requests and parameters, see this link :https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests ",
-   "url": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module",
-   "downloadURL": "https://github.com/Edrig/OBS-Websocket-Chataigne-Module/archive/master.zip",
-   "hasInput": true,
-   "hasOutput": true,
-   "hideDefaultCommands": true,
-   "hideDefaultParameters": [
-      "autoAdd",
-      "protocol",
-      "messageStructure",
-      "firstValueIsTheName",
-      "useSecureConnection",
-      "connected"
-   ],
-   "defaults": {
-      "Protocol": "Lines",
-      "autoAdd": false,
-      "serverPath": "127.0.0.1:4455"
-   },
-   "parameters": {
-      "Enable Authentification": {
-         "type": "Boolean",
-         "default": true
-      },
-      "Password": {
-         "type": "String",
-         "dependency": {
-            "source": "Enable Authentification",
-            "value": true,
-            "check": "equals",
-            "action": "show"
-         }
-      },
-      "EventSub": {
-         "type": "Container",
-         "General": {
-            "type": "Boolean",
-            "default": true
-         },
-         "Config": {
-            "type": "Boolean",
-            "default": false
-         },
-         "Scenes": {
-            "type": "Boolean",
-            "default": true
-         },
-         "Inputs": {
-            "type": "Boolean",
-            "default": true
-         },
-         "Transitions": {
-            "type": "Boolean",
-            "default": false
-         },
-         "Filters": {
-            "type": "Boolean",
-            "default": false
-         },
-         "Outputs": {
-            "type": "Boolean",
-            "default": false
-         },
-         "SceneItems": {
-            "type": "Boolean",
-            "default": true
-         },
-         "MediaInputs": {
-            "type": "Boolean",
-            "default": false
-         },
-         "Vendors": {
-            "type": "Boolean",
-            "default": false
-         },
-         "Ui": {
-            "type": "Boolean",
-            "default": true
-         },
-         "InputVolumeMeters": {
-            "type": "Boolean",
-            "default": false
-         },
-         "InputActiveStateChanged": {
-            "type": "Boolean",
-            "default": false
-         },
-         "InputShowStateChanged": {
-            "type": "Boolean",
-            "default": false
-         },
-         "SceneItemTransformChanged": {
-            "type": "Boolean",
-            "default": true
-         }
-      },
-      "See all requests of OBS": {
-         "type": "String",
-         "default": "https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests "
+  "name": "OBS Websocket Advanced",
+  "type": "WebSocket Client",
+  "path": "Software",
+  "version": "3.0.0",
+  "description": "Advanced Module to control OBS by Websocket. Learn more: https://github.com/KopiasCsaba/Chataigne-Module-OBS-Websocket-Advanced \nThis module is based on Edrig's awesome work: https://github.com/Edrig/OBS-Websocket-Chataigne-Module",
+  "url": "https://github.com/KopiasCsaba/Chataigne-Module-OBS-Websocket-Advanced",
+  "downloadURL": "https://github.com/KopiasCsaba/Chataigne-Module-OBS-Websocket-Advanced/archive/main.zip",
+  "hasInput": true,
+  "hasOutput": true,
+  "hideDefaultCommands": true,
+  "hideDefaultParameters": [
+    "autoAdd",
+    "protocol",
+    "messageStructure",
+    "firstValueIsTheName",
+    "useSecureConnection",
+    "connected"
+  ],
+  "defaults": {
+    "Protocol": "Lines",
+    "autoAdd": false,
+    "serverPath": "127.0.0.1:4455"
+  },
+  "parameters": {
+    "Enable Authentification": {
+      "type": "Boolean",
+      "default": true
+    },
+    "Password": {
+      "type": "String",
+      "dependency": {
+        "source": "Enable Authentification",
+        "value": true,
+        "check": "equals",
+        "action": "show"
       }
-   },
-   "values": {
-      "removeAllValues": {
-         "type": "Trigger",
-         "callback": "removeAllValues"
+    },
+    "EventSub": {
+      "type": "Container",
+      "General": {
+        "type": "Boolean",
+        "default": true
       },
-      "ControlsStatus":{
-         "type":"Container",
-         "ControllerStatus": {
-            "type":"Boolean",
-            "description": "false = scenes, true = items",
-            "default": false
-         },
-         "CropBotTopStatus": {
-            "type":"Boolean",
-            "description": "false = top, true = bot",
-            "default": false
-         },
-         "CropLeftRightStatus": {
-            "type":"Boolean",
-            "description": "false = left, true = right",
-            "default": false
-         },
-         "StudioModeStatus": {
-            "type":"Boolean",
-            "description": "OBS studio mode status; false = unactive, true = active",
-            "default": false
-         }
+      "Config": {
+        "type": "Boolean",
+        "default": false
       },
-      "Active Item Transform": {
-         "type": "Container",
-         "X": {
-            "type": "Integer",
-            "min": -9999,
-            "max": 9999,
-            "description": "X position",
-            "shortName": "positionX"
-         },
-         "Y": {
-            "type": "Integer",
-            "min": -9999,
-            "max": 9999,
-            "description": "Y position",
-            "shortName": "positionY"
-         },
-         "Zoom": {
-            "type": "Float",
-            "min": -5,
-            "max": 5,
-            "description": "Zoom in multiplicator"
-         },
-         "Rotation": {
-            "type": "Integer",
-            "min": -9999,
-            "max": 9999,
-            "description": "In degree",
-            "shortName": "rotation"
-         },
-         "Crop_Left": {
-            "type": "Integer",
-            "min": -9999,
-            "max": 9999,
-            "shortName": "cropLeft"
-         },
-         "Crop_Right": {
-            "type": "Integer",
-            "min": -9999,
-            "max": 9999,
-            "shortName": "cropRight"
-         },
-         "Crop_Top": {
-            "type": "Integer",
-            "min": -9999,
-            "max": 9999,
-            "shortName": "cropTop"
-         },
-         "Crop_Bot": {
-            "type": "Integer",
-            "min": -9999,
-            "max": 9999,
-            "shortName": "cropBottom"
-         },
-         "Steppers": {
-            "type": "Container",
-            "X/Y/Crop/Rot Step": {
-               "type": "Integer",
-               "min": -9999,
-               "max": 9999,
-               "description": "Precision step",
-               "default": 1
-            },
-            "Zoom Step": {
-               "type": "Float",
-               "min": -5,
-               "max": 5,
-               "description": "Precision step",
-               "default": 0.001
-            }
-         }
+      "Scenes": {
+        "type": "Boolean",
+        "default": true
+      },
+      "Inputs": {
+        "type": "Boolean",
+        "default": true
+      },
+      "Transitions": {
+        "type": "Boolean",
+        "default": false
+      },
+      "Filters": {
+        "type": "Boolean",
+        "default": false
+      },
+      "Outputs": {
+        "type": "Boolean",
+        "default": false
+      },
+      "SceneItems": {
+        "type": "Boolean",
+        "default": true
+      },
+      "MediaInputs": {
+        "type": "Boolean",
+        "default": false
+      },
+      "Vendors": {
+        "type": "Boolean",
+        "default": false
+      },
+      "Ui": {
+        "type": "Boolean",
+        "default": true
+      },
+      "InputVolumeMeters": {
+        "type": "Boolean",
+        "default": false
+      },
+      "InputActiveStateChanged": {
+        "type": "Boolean",
+        "default": false
+      },
+      "InputShowStateChanged": {
+        "type": "Boolean",
+        "default": false
+      },
+      "SceneItemTransformChanged": {
+        "type": "Boolean",
+        "default": true
       }
-   },
-   "scripts": [
-      "OBS.js"
-   ],
-   "commands": {
-      "Raw Command": {
-         "menu": "",
-         "callback": "sendObsRawCommand",
-         "parameters": {
-            "data": {
-               "type": "String"
-            }
-         }
-      },
-      "GetVersion": {
-         "menu": "General Requests",
-         "callback": "GetVersion",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "GetStats": {
-         "menu": "General Requests",
-         "callback": "GetStats",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "BroadcastCustomEvent": {
-         "menu": "General Requests",
-         "callback": "BroadcastCustomEvent",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "CallVendorRequest": {
-         "menu": "General Requests",
-         "callback": "CallVendorRequest",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "vendorName": {
-               "type": "String"
-            },
-            "requestType": {
-               "type": "String"
-            },
-            "?requestData": {
-               "type": "String"
-            }
-         }
-      },
-      "GetHotkeyList": {
-         "menu": "General Requests",
-         "callback": "GetHotkeyList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "TriggerHotkeyByName": {
-         "menu": "General Requests",
-         "callback": "TriggerHotkeyByName",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "hotkeyName": {
-               "type": "String"
-            }
-         }
-      },
-      "TriggerHotkeyByKeySequence": {
-         "menu": "General Requests",
-         "callback": "TriggerHotkeyByKeySequence",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "?keyId": {
-               "type": "String"
-            },
-            "Shift": {
-               "type": "Boolean"
-            },
-            "Ctrl": {
-               "type": "Boolean"
-            },
-            "Alt": {
-               "type": "Boolean"
-            },
-            "Cmd/Win/Mac": {
-               "type": "Boolean"
-            }
-         }
-      },
-      "Sleep": {
-         "menu": "General Requests",
-         "callback": "Sleep",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sleepMillis": {
-               "type": "Integer",
-               "min": 0,
-               "max": 50000
-            },
-            "sleepFrames": {
-               "type": "Integer",
-               "min": 0,
-               "max": 10000
-            }
-         }
-      },
-      "GetPersistentData": {
-         "menu": "Config Requests",
-         "callback": "GetPersistentData",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "realm": {
-               "type": "String"
-            },
-            "slotName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetPersistentData": {
-         "menu": "Config Requests",
-         "callback": "SetPersistentData",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "realm": {
-               "type": "String"
-            },
-            "slotName": {
-               "type": "String"
-            },
-            "slotValue": {
-               "type": "String"
-            }
-         }
-      },
-      "GetSceneCollectionList": {
-         "menu": "Config Requests",
-         "callback": "GetSceneCollectionList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SetCurrentSceneCollection": {
-         "menu": "Config Requests",
-         "callback": "SetCurrentSceneCollection",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneCollectionName": {
-               "type": "String"
-            }
-         }
-      },
-      "CreateSceneCollection": {
-         "menu": "Config Requests",
-         "callback": "CreateSceneCollection",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneCollectionName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetProfileList": {
-         "menu": "Config Requests",
-         "callback": "GetProfileList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SetCurrentProfile": {
-         "menu": "Config Requests",
-         "callback": "SetCurrentProfile",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "profileName": {
-               "type": "String"
-            }
-         }
-      },
-      "CreateProfile": {
-         "menu": "Config Requests",
-         "callback": "CreateProfile",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "profileName": {
-               "type": "String"
-            }
-         }
-      },
-      "RemoveProfile": {
-         "menu": "Config Requests",
-         "callback": "RemoveProfile",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "profileName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetProfileParameter": {
-         "menu": "Config Requests",
-         "callback": "GetProfileParameter",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "parameterCategory": {
-               "type": "String"
-            },
-            "parameterName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetProfileParameter": {
-         "menu": "Config Requests",
-         "callback": "SetProfileParameter",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "parameterCategory": {
-               "type": "String"
-            },
-            "parameterName": {
-               "type": "String"
-            },
-            "parameterValue": {
-               "type": "String"
-            }
-         }
-      },
-      "GetVideoSettings": {
-         "menu": "Config Requests",
-         "callback": "GetVideoSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SetVideoSettings": {
-         "menu": "Config Requests",
-         "callback": "SetVideoSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "?fpsNumerator": {
-               "type": "Integer",
-               "min": 1
-            },
-            "?fpsDenominator": {
-               "type": "Integer",
-               "min": 1
-            },
-            "?baseWidth": {
-               "type": "Integer",
-               "min": 1,
-               "max": 4096
-            },
-            "?baseHeight": {
-               "type": "Integer",
-               "min": 1,
-               "max": 4096
-            },
-            "?outputWidth": {
-               "type": "Integer",
-               "min": 1,
-               "max": 4096
-            },
-            "?outputHeight": {
-               "type": "Integer",
-               "min": 1,
-               "max": 4096
-            }
-         }
-      },
-      "GetStreamServiceSettings": {
-         "menu": "Config Requests",
-         "callback": "GetStreamServiceSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SetStreamServiceSettings": {
-         "menu": "Config Requests",
-         "callback": "SetStreamServiceSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "streamServiceType": {
-               "type": "String"
-            },
-            "streamServiceSettings": {
-               "type": "String"
-            }
-         }
-      },
-      "GetRecordDirectory": {
-         "menu": "Config Requests",
-         "callback": "GetRecordDirectory",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "GetSourceActive": {
-         "menu": "Sources Requests",
-         "callback": "GetSourceActive",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetSourceScreenshot": {
-         "menu": "Sources Requests",
-         "callback": "GetSourceScreenshot",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "imageFormat": {
-               "type": "String"
-            },
-            "?imageWidth": {
-               "type": "Integer",
-               "min": 8,
-               "max": 4096
-            },
-            "?imageHeight": {
-               "type": "Integer",
-               "min": 8,
-               "max": 4096
-            },
-            "?imageCompressionQuality": {
-               "type": "Integer",
-               "min": -1,
-               "max": 100,
-               "default": -1
-            }
-         }
-      },
-      "SaveSourceScreenshot": {
-         "menu": "Sources Requests",
-         "callback": "SaveSourceScreenshot",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "imageFilePath": {
-               "type": "String"
-            },
-            "imageFormat": {
-               "type": "Enum",
-               "options": {
-                  "bmp": "bmp",
-                  "jpeg": "jpeg",
-                  "jpg": "jpg",
-                  "pbm": "pbm",
-                  "pgm": "pgm",
-                  "png": "png",
-                  "ppm": "ppm",
-                  "xbm": "xbm",
-                  "xpm": "xpm"
-               }
-            },
-            "?imageWidth": {
-               "type": "Integer",
-               "min": 8,
-               "max": 4096
-            },
-            "?imageHeight": {
-               "type": "Integer",
-               "min": 8,
-               "max": 4096
-            },
-            "?imageCompressionQuality": {
-               "type": "Integer",
-               "min": -1,
-               "max": 100,
-               "default": -1
-            }
-         }
-      },
-      "GetSceneList": {
-         "menu": "Scenes Requests",
-         "callback": "GetSceneList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "GetGroupList": {
-         "menu": "Scenes Requests",
-         "callback": "GetGroupList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "GetCurrentProgramScene": {
-         "menu": "Scenes Requests",
-         "callback": "GetCurrentProgramScene",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SetCurrentProgramScene": {
-         "menu": "Scenes Requests",
-         "callback": "SetCurrentProgramScene",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetCurrentPreviewScene": {
-         "menu": "Scenes Requests",
-         "callback": "GetCurrentPreviewScene",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SetCurrentPreviewScene": {
-         "menu": "Scenes Requests",
-         "callback": "SetCurrentPreviewScene",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "CreateScene": {
-         "menu": "Scenes Requests",
-         "callback": "CreateScene",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "RemoveScene": {
-         "menu": "Scenes Requests",
-         "callback": "RemoveScene",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetSceneName": {
-         "menu": "Scenes Requests",
-         "callback": "SetSceneName",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "newSceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetSceneSceneTransitionOverride": {
-         "menu": "Scenes Requests",
-         "callback": "GetSceneSceneTransitionOverride",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetSceneSceneTransitionOverride": {
-         "menu": "Scenes Requests",
-         "callback": "SetSceneSceneTransitionOverride",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "?transitionName": {
-               "type": "String"
-            },
-            "?transitionDuration": {
-               "type": "Integer",
-               "min": 50,
-               "max": 20000
-            }
-         }
-      },
-      "GetInputList": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "?inputKind": {
-               "type": "String"
-            }
-         }
-      },
-      "GetInputKindList": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputKindList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "?unversioned": {
-               "type": "Boolean"
-            }
-         }
-      },
-      "GetSpecialInputs": {
-         "menu": "Inputs Requests",
-         "callback": "GetSpecialInputs",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "CreateInput": {
-         "menu": "Inputs Requests",
-         "callback": "CreateInput",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "inputKind": {
-               "type": "String"
-            },
-            "?inputSettings": {
-               "type": "String"
-            },
-            "?sceneItemEnabled": {
-               "type": "Boolean"
-            }
-         }
-      },
-      "RemoveInput": {
-         "menu": "Inputs Requests",
-         "callback": "RemoveInput",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetInputName": {
-         "menu": "Inputs Requests",
-         "callback": "SetInputName",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "newInputName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetInputDefaultSettings": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputDefaultSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputKind": {
-               "type": "String"
-            }
-         }
-      },
-      "GetInputSettings": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetInputSettings": {
-         "menu": "Inputs Requests",
-         "callback": "SetInputSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "inputSettings": {
-               "type": "String"
-            },
-            "?overlay": {
-               "type": "Boolean",
-               "default": true
-            }
-         }
-      },
-      "GetInputMute": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputMute",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetInputMute": {
-         "menu": "Inputs Requests",
-         "callback": "SetInputMute",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "inputMuted": {
-               "type": "Boolean"
-            }
-         }
-      },
-      "ToggleInputMute": {
-         "menu": "Inputs Requests",
-         "callback": "ToggleInputMute",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetInputVolume": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputVolume",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetInputVolume": {
-         "menu": "Inputs Requests",
-         "callback": "SetInputVolume",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "Db settings ?": {
-               "type": "Boolean"
-            },
-            "?inputVolumeMul": {
-               "type": "Float",
-               "min": 0,
-               "max": 20,
-               "dependency": {
-                  "source": "Db settings ?",
-                  "value": "Boolean",
-                  "check": "equals",
-                  "action": "show"
-               }
-            },
-            "?inputVolumeDb": {
-               "type": "Float",
-               "min": -100,
-               "max": 26,
-               "dependency": {
-                  "source": "Db settings ?",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            }
-         }
-      },
-      "GetInputAudioBalance": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputAudioBalance",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetInputAudioBalance": {
-         "menu": "Inputs Requests",
-         "callback": "SetInputAudioBalance",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "inputAudioBalance": {
-               "type": "Float",
-               "min": 0,
-               "max": 1
-            }
-         }
-      },
-      "GetInputAudioSyncOffset": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputAudioSyncOffset",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetInputAudioSyncOffset": {
-         "menu": "Inputs Requests",
-         "callback": "SetInputAudioSyncOffset",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "inputAudioSyncOffset": {
-               "type": "Integer",
-               "min": -950,
-               "max": 20000
-            }
-         }
-      },
-      "GetInputAudioMonitorType": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputAudioMonitorType",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetInputAudioMonitorType": {
-         "menu": "Inputs Requests",
-         "callback": "SetInputAudioMonitorType",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "monitorType": {
-               "type": "Enum",
-               "options": {
-                  "OBS_MONITORING_TYPE_NONE": "OBS_MONITORING_TYPE_NONE",
-                  "OBS_MONITORING_TYPE_MONITOR_ONLY": "OBS_MONITORING_TYPE_MONITOR_ONLY",
-                  "OBS_MONITORING_TYPE_MONITOR_AND_OUTPUT": "OBS_MONITORING_TYPE_MONITOR_AND_OUTPUT"
-               }
-            }
-         }
-      },
-      "GetInputAudioTracks": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputAudioTracks",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetInputAudioTracks": {
-         "menu": "Inputs Requests",
-         "callback": "SetInputAudioTracks",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "inputAudioTracks": {
-               "type": "String"
-            }
-         }
-      },
-      "GetInputPropertiesListPropertyItems": {
-         "menu": "Inputs Requests",
-         "callback": "GetInputPropertiesListPropertyItems",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "propertyName": {
-               "type": "String"
-            }
-         }
-      },
-      "PressInputPropertiesButton": {
-         "menu": "Inputs Requests",
-         "callback": "PressInputPropertiesButton",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "propertyName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetTransitionKindList": {
-         "menu": "Transitions Requests",
-         "callback": "GetTransitionKindList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "transitionKinds": {
-               "type": "String"
-            }
-         }
-      },
-      "GetSceneTransitionList": {
-         "menu": "Transitions Requests",
-         "callback": "GetSceneTransitionList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "currentSceneTransitionName": {
-               "type": "String"
-            },
-            "currentSceneTransitionKind": {
-               "type": "String"
-            },
-            "transitions": {
-               "type": "String"
-            }
-         }
-      },
-      "GetCurrentSceneTransition": {
-         "menu": "Transitions Requests",
-         "callback": "GetCurrentSceneTransition",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "transitionName": {
-               "type": "String"
-            },
-            "transitionKind": {
-               "type": "String"
-            },
-            "transitionFixed": {
-               "type": "Boolean"
-            },
-            "transitionDuration (ms)": {
-               "type": "Integer"
-            },
-            "transitionConfigurable": {
-               "type": "Boolean"
-            },
-            "transitionSettings": {
-               "type": "String"
-            }
-         }
-      },
-      "SetCurrentSceneTransition": {
-         "menu": "Transitions Requests",
-         "callback": "SetCurrentSceneTransition",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "transitionName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetCurrentSceneTransitionDuration": {
-         "menu": "Transitions Requests",
-         "callback": "SetCurrentSceneTransitionDuration",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "transitionDuration (ms)": {
-               "type": "Integer",
-               "min": 50,
-               "max": 20000
-            }
-         }
-      },
-      "SetCurrentSceneTransitionSettings": {
-         "menu": "Transitions Requests",
-         "callback": "SetCurrentSceneTransitionSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "transitionSettings": {
-               "type": "String"
-            },
-            "?overlay": {
-               "type": "Boolean",
-               "default": true
-            }
-         }
-      },
-      "GetCurrentSceneTransitionCursor": {
-         "menu": "Transitions Requests",
-         "callback": "GetCurrentSceneTransitionCursor",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "transitionCursor": {
-               "type": "Float",
-               "min": 0.0,
-               "max": 1.0
-            }
-         }
-      },
-      "TriggerStudioModeTransition": {
-         "menu": "Transitions Requests",
-         "callback": "TriggerStudioModeTransition",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SetTBarPosition": {
-         "menu": "Transitions Requests",
-         "callback": "SetTBarPosition",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "position": {
-               "type": "Float",
-               "min": 0.0,
-               "max": 1.0
-            },
-            "?release": {
-               "type": "Boolean",
-               "default": true
-            }
-         }
-      },
-      "GetSourceFilterList": {
-         "menu": "Scene Items Requests",
-         "callback": "GetSourceFilterList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetSourceFilterDefaultSettings": {
-         "menu": "Filters Requests",
-         "callback": "GetSourceFilterDefaultSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "filterKind": {
-               "type": "String"
-            }
-         }
-      },
-      "CreateSourceFilter": {
-         "menu": "Filters Requests",
-         "callback": "CreateSourceFilter",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "filterName": {
-               "type": "String"
-            },
-            "filterKind": {
-               "type": "String"
-            },
-            "?filterSettings": {
-               "type": "String"
-            }
-         }
-      },
-      "RemoveSourceFilter": {
-         "menu": "Filters Requests",
-         "callback": "RemoveSourceFilter",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "filterName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetSourceFilterName": {
-         "menu": "Filters Requests",
-         "callback": "SetSourceFilterName",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "filterName": {
-               "type": "String"
-            },
-            "newFilterName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetSourceFilter": {
-         "menu": "Filters Requests",
-         "callback": "GetSourceFilter",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "newFilterName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetSourceFilterIndex": {
-         "menu": "Filters Requests",
-         "callback": "SetSourceFilterIndex",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "filterName": {
-               "type": "String"
-            },
-            "filterIndex": {
-               "type": "Integer",
-               "min": 0
-            }
-         }
-      },
-      "SetSourceFilterSettings": {
-         "menu": "Filters Requests",
-         "callback": "SetSourceFilterSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "filterName": {
-               "type": "String"
-            },
-            "filterSettings": {
-               "type": "String"
-            },
-            "overlay": {
-               "type": "Boolean",
-               "default": true
-            }
-         }
-      },
-      "SetSourceFilterColorCorrectionSettings": {
-         "menu": "Filters Requests",
-         "callback": "SetSourceFilterColorCorrectionSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "filterName": {
-               "type": "String"
-            },
-            "Gamma": {
-               "type": "Float",
-               "min": -3,
-               "max": 3,
-               "default": 0
-            },
-            "Contrast": {
-               "type": "Float",
-               "min": -4,
-               "max": 4,
-               "default": 0
-            },
-            "Brightness": {
-               "type": "Float",
-               "min": -1,
-               "max": 1,
-               "default": 0
-            },
-            "Saturation": {
-               "type": "Float",
-               "min": -1,
-               "max": 5,
-               "default": 0
-            },
-            "Hue Shift": {
-               "type": "Float",
-               "min": -180,
-               "max": 180,
-               "default": 0
-            },
-            "Opacity": {
-               "type": "Float",
-               "min": 0,
-               "max": 1,
-               "default": 1
-            },
-            "Color Multiply": {
-               "type": "Color",
-               "default": [
-                  1,
-                  1,
-                  1,
-                  1
-               ]
-            },
-            "Color Add": {
-               "type": "Color",
-               "default": [
-                  0,
-                  0,
-                  0,
-                  1
-               ]
-            },
-            "overlay": {
-               "type": "Boolean",
-               "default": true
-            }
-         }
-      },
-      "SetSourceFilterEnabled": {
-         "menu": "Filters Requests",
-         "callback": "SetSourceFilterEnabled",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "filterName": {
-               "type": "String"
-            },
-            "filterEnabled": {
-               "type": "Boolean"
-            }
-         }
-      },
-      "GetSceneItemList": {
-         "menu": "Scene Items Requests",
-         "callback": "GetSceneItemList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetGroupSceneItemList": {
-         "menu": "Scene Items Requests",
-         "callback": "GetGroupSceneItemList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetSceneItemId": {
-         "menu": "Scene Items Requests",
-         "callback": "GetSceneItemId",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "?searchOffset": {
-               "type": "Integer",
-               "min": -1,
-               "default": 0
-            }
-         }
-      },
-      "CreateSceneItem": {
-         "menu": "Scene Items Requests",
-         "callback": "CreateSceneItem",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "?sceneItemEnabled": {
-               "type": "Boolean",
-               "default": true
-            }
-         }
-      },
-      "RemoveSceneItem": {
-         "menu": "Scene Items Requests",
-         "callback": "RemoveSceneItem",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            }
-         }
-      },
-      "DuplicateSceneItem": {
-         "menu": "Scene Items Requests",
-         "callback": "DuplicateSceneItem",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneId": {
-               "type": "Integer",
-               "min": 0
-            },
-            "?destinationSceneName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetSceneItemTransform": {
-         "menu": "Scene Items Requests",
-         "callback": "GetSceneItemTransform",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            }
-         }
-      },
-      "SetSceneItemTransform": {
-         "menu": "Scene Items Requests",
-         "callback": "SetSceneItemTransform",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            },
-            "positionX status": {
-               "type": "Boolean"
-            },
-            "positionX": {
-               "type": "Float",
-               "dependency": {
-                  "source": "positionX status",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            },
-            "positionY status": {
-               "type": "Boolean"
-            },
-            "positionY": {
-               "type": "Float",
-               "dependency": {
-                  "source": "positionY status",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            },
-            "scaleX status": {
-               "type": "Boolean"
-            },
-            "scaleX": {
-               "type": "Float",
-               "dependency": {
-                  "source": "scaleX status",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            },
-            "scaleY status": {
-               "type": "Boolean"
-            },
-            "scaleY": {
-               "type": "Float",
-               "dependency": {
-                  "source": "scaleY status",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            },
-            "rotation status": {
-               "type": "Boolean"
-            },
-            "rotation": {
-               "type": "Float",
-               "dependency": {
-                  "source": "rotation status",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            },
-            "cropBottom status": {
-               "type": "Boolean"
-            },
-            "cropBottom": {
-               "type": "Float",
-               "dependency": {
-                  "source": "cropBottom status",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            },
-            "cropTop status": {
-               "type": "Boolean"
-            },
-            "cropTop": {
-               "type": "Float",
-               "dependency": {
-                  "source": "cropTop status",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            },
-            "cropLeft status": {
-               "type": "Boolean"
-            },
-            "cropLeft": {
-               "type": "Float",
-               "dependency": {
-                  "source": "cropLeft status",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            },
-            "cropRight status": {
-               "type": "Boolean"
-            },
-            "cropRight": {
-               "type": "Float",
-               "dependency": {
-                  "source": "cropRight status",
-                  "value": "Boolean",
-                  "check": "notEquals",
-                  "action": "show"
-               }
-            }
-         }
-      },
-      "GetSceneItemEnabled": {
-         "menu": "Scene Items Requests",
-         "callback": "GetSceneItemEnabled",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            }
-         }
-      },
-      "SetSceneItemEnabled": {
-         "menu": "Scene Items Requests",
-         "callback": "SetSceneItemEnabled",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            },
-            "sceneItemEnabled": {
-               "type": "Boolean"
-            }
-         }
-      },
-      "GetSceneItemLocked": {
-         "menu": "Scene Items Requests",
-         "callback": "GetSceneItemLocked",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            }
-         }
-      },
-      "SetSceneItemLocked": {
-         "menu": "Scene Items Requests",
-         "callback": "SetSceneItemLocked",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            },
-            "sceneItemLocked": {
-               "type": "Boolean"
-            }
-         }
-      },
-      "GetSceneItemIndex": {
-         "menu": "Scene Items Requests",
-         "callback": "GetSceneItemIndex",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            }
-         }
-      },
-      "SetSceneItemIndex": {
-         "menu": "Scene Items Requests",
-         "callback": "SetSceneItemIndex",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            },
-            "sceneItemIndex": {
-               "type": "Integer",
-               "min": 0
-            }
-         }
-      },
-      "GetSceneItemBlendMode": {
-         "menu": "Scene Items Requests",
-         "callback": "GetSceneItemBlendMode",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            }
-         }
-      },
-      "SetSceneItemBlendMode": {
-         "menu": "Scene Items Requests",
-         "callback": "SetSceneItemBlendMode",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sceneName": {
-               "type": "String"
-            },
-            "sceneItemId": {
-               "type": "Integer",
-               "min": 0
-            },
-            "sceneItemBlendMode": {
-               "type": "Enum",
-               "options": {
-                  "OBS_BLEND_NORMAL": "OBS_BLEND_NORMAL",
-                  "OBS_BLEND_ADDITIVE": "OBS_BLEND_ADDITIVE",
-                  "OBS_BLEND_SUBTRACT": "OBS_BLEND_SUBTRACT",
-                  "OBS_BLEND_SCREEN": "OBS_BLEND_SCREEN",
-                  "OBS_BLEND_MULTIPLY": "OBS_BLEND_MULTIPLY",
-                  "OBS_BLEND_LIGHTEN": "OBS_BLEND_LIGHTEN",
-                  "OBS_BLEND_DARKEN": "OBS_BLEND_DARKEN"
-               }
-            }
-         }
-      },
-      "GetVirtualCamStatus": {
-         "menu": "Outputs Requests",
-         "callback": "GetVirtualCamStatus",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "ToggleVirtualCam": {
-         "menu": "Outputs Requests",
-         "callback": "ToggleVirtualCam",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "StartVirtualCam": {
-         "menu": "Outputs Requests",
-         "callback": "StartVirtualCam",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "StopVirtualCam": {
-         "menu": "Outputs Requests",
-         "callback": "StopVirtualCam",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "GetReplayBufferStatus": {
-         "menu": "Outputs Requests",
-         "callback": "GetReplayBufferStatus",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "ToggleReplayBuffer": {
-         "menu": "Outputs Requests",
-         "callback": "ToggleReplayBuffer",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "StartReplayBuffer": {
-         "menu": "Outputs Requests",
-         "callback": "StartReplayBuffer",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "StopReplayBuffer": {
-         "menu": "Outputs Requests",
-         "callback": "StopReplayBuffer",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SaveReplayBuffer": {
-         "menu": "Outputs Requests",
-         "callback": "SaveReplayBuffer",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "GetLastReplayBufferReplay": {
-         "menu": "Outputs Requests",
-         "callback": "GetLastReplayBufferReplay",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "GetOutputList": {
-         "menu": "Outputs Requests",
-         "callback": "GetOutputList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "GetOutputStatus": {
-         "menu": "Outputs Requests",
-         "callback": "GetOutputStatus",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "outputName": {
-               "type": "String"
-            }
-         }
-      },
-      "ToggleOutput": {
-         "menu": "Outputs Requests",
-         "callback": "ToggleOutput",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "outputName": {
-               "type": "String"
-            }
-         }
-      },
-      "StartOutput": {
-         "menu": "Outputs Requests",
-         "callback": "StartOutput",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "outputName": {
-               "type": "String"
-            }
-         }
-      },
-      "StopOutput": {
-         "menu": "Outputs Requests",
-         "callback": "StopOutput",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "outputName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetOutputSettings": {
-         "menu": "Outputs Requests",
-         "callback": "GetOutputSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "outputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetOutputSettings": {
-         "menu": "Outputs Requests",
-         "callback": "SetOutputSettings",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "outputName": {
-               "type": "String"
-            },
-            "outputSettings": {
-               "type": "String"
-            }
-         }
-      },
-      "GetStreamStatus": {
-         "menu": "Stream Requests",
-         "callback": "GetStreamStatus",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "ToggleStream": {
-         "menu": "Stream Requests",
-         "callback": "ToggleStream",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "StartStream": {
-         "menu": "Stream Requests",
-         "callback": "StartStream",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "StopStream": {
-         "menu": "Stream Requests",
-         "callback": "StopStream",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SendStreamCaption": {
-         "menu": "Stream Requests",
-         "callback": "SendStreamCaption",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "captionText": {
-               "type": "String"
-            }
-         }
-      },
-      "GetRecordStatus": {
-         "menu": "Record Requests",
-         "callback": "GetRecordStatus",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "ToggleRecord": {
-         "menu": "Record Requests",
-         "callback": "ToggleRecord",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "StartRecord": {
-         "menu": "Record Requests",
-         "callback": "StartRecord",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "StopRecord": {
-         "menu": "Record Requests",
-         "callback": "StopRecord",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "ToggleRecordPause": {
-         "menu": "Record Requests",
-         "callback": "ToggleRecordPause",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "PauseRecord": {
-         "menu": "Record Requests",
-         "callback": "PauseRecord",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "ResumeRecord": {
-         "menu": "Record Requests",
-         "callback": "ResumeRecord",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "GetMediaInputStatus": {
-         "menu": "Media Inputs Requests",
-         "callback": "GetMediaInputStatus",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "SetMediaInputCursor": {
-         "menu": "Media Inputs Requests",
-         "callback": "SetMediaInputCursor",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "mediaCursor": {
-               "type": "Float",
-               "min": 0
-            }
-         }
-      },
-      "OffsetMediaInputCursor": {
-         "menu": "Media Inputs Requests",
-         "callback": "OffsetMediaInputCursor",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "mediaCursorOffset": {
-               "type": "Float"
-            }
-         }
-      },
-      "TriggerMediaInputAction": {
-         "menu": "Media Inputs Requests",
-         "callback": "TriggerMediaInputAction",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            },
-            "mediaAction": {
-               "type": "Enum",
-               "options": {
-                  "OBS_MEDIA_STATE_NONE": "OBS_MEDIA_STATE_NONE",
-                  "OBS_MEDIA_STATE_PLAYING": "OBS_MEDIA_STATE_PLAYING",
-                  "OBS_MEDIA_STATE_OPENING": "OBS_MEDIA_STATE_OPENING",
-                  "OBS_MEDIA_STATE_BUFFERING": "OBS_MEDIA_STATE_BUFFERING",
-                  "OBS_MEDIA_STATE_PAUSED": "OBS_MEDIA_STATE_PAUSED",
-                  "OBS_MEDIA_STATE_STOPPED": "OBS_MEDIA_STATE_STOPPED",
-                  "OBS_MEDIA_STATE_ENDED": "OBS_MEDIA_STATE_ENDED",
-                  "OBS_MEDIA_STATE_ERROR": "OBS_MEDIA_STATE_ERROR"
-               }
-            }
-         }
-      },
-      "GetStudioModeEnabled": {
-         "menu": "UI Requests",
-         "callback": "GetStudioModeEnabled",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "SetStudioModeEnabled": {
-         "menu": "UI Requests",
-         "callback": "SetStudioModeEnabled",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "studioModeEnabled": {
-               "type": "Boolean"
-            }
-         }
-      },
-      "OpenInputPropertiesDialog": {
-         "menu": "UI Requests",
-         "callback": "OpenInputPropertiesDialog",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "OpenInputFiltersDialog": {
-         "menu": "UI Requests",
-         "callback": "OpenInputFiltersDialog",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "OpenInputInteractDialog": {
-         "menu": "UI Requests",
-         "callback": "OpenInputInteractDialog",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "inputName": {
-               "type": "String"
-            }
-         }
-      },
-      "GetMonitorList": {
-         "menu": "UI Requests",
-         "callback": "GetMonitorList",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            }
-         }
-      },
-      "OpenVideoMixProjector": {
-         "menu": "UI Requests",
-         "callback": "OpenVideoMixProjector",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "videoMixType": {
-               "type": "Enum",
-               "options": {
-                  "OBS_WEBSOCKET_VIDEO_MIX_TYPE_PREVIEW": "OBS_WEBSOCKET_VIDEO_MIX_TYPE_PREVIEW",
-                  "OBS_WEBSOCKET_VIDEO_MIX_TYPE_PROGRAM": "OBS_WEBSOCKET_VIDEO_MIX_TYPE_PROGRAM",
-                  "OBS_WEBSOCKET_VIDEO_MIX_TYPE_MULTIVIEW": "OBS_WEBSOCKET_VIDEO_MIX_TYPE_MULTIVIEW"
-               }
-            },
-            "?monitorIndex Id": {
-               "type": "Integer"
-            },
-            "?projectorGeometry Id": {
-               "type": "String"
-            }
-         }
-      },
-      "OpenSourceProjector": {
-         "menu": "UI Requests",
-         "callback": "OpenSourceProjector",
-         "parameters": {
-            "request Id": {
-               "type": "String"
-            },
-            "sourceName": {
-               "type": "String"
-            },
-            "?monitorIndex": {
-               "type": "Integer"
-            },
-            "?projectorGeometry": {
-               "type": "String"
-            }
-         }
-      },
-      "Active item switch": {
-         "menu": "Module Requests",
-         "callback": "SwitchActiveItem",
-         "parameters": {
-            "direction": {
-               "type": "Enum",
-               "options": {
-                  "Previous": "Previous",
-                  "Next": "Next"
-               }
-            }
-         }
-      },
-      "Transform X": {
-         "menu": "Active Item",
-         "callback": "ActiveItemTransformX",
-         "parameters": {
-            "Negative": {
-               "type": "Boolean",
-               "default": false
-            }
-         }
-      },
-      "Transform Delta": {
-         "menu": "Active Item",
-         "callback": "ActiveItemTransform",
-         "parameters": {
-            "Negative": {
-               "type": "Boolean",
-               "default": false
-            },
-            "Position": {
-               "type": "Enum",
-               "options": {
-                  "X": "positionX",
-                  "Y": "positionY",
-                  "Zoom": "Zoom",
-                  "Rotation": "rotation",
-                  "Crop_Left": "cropLeft",
-                  "Crop_Right": "cropRight",
-                  "Crop_Top": "cropTop",
-                  "Crop_Bot": "cropBottom"
-               }
-            }
-         }
+    },
+    "See all requests of OBS": {
+      "type": "String",
+      "default": "https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests ",
+      "readOnly": true
+    }
+  },
+  "values": {
+    "Remove All Values": {
+      "type": "Trigger",
+      "callback": "removeAllValues"
+    },
+    "Query All Values": {
+      "type": "Trigger",
+      "callback": "queryAllValues"
+    }
+  },
+  "scripts": [
+    "OBSNG.js"
+  ],
+  "commands": {
+    "Raw WS Message": {
+      "menu": "",
+      "callback": "sendRawWSMessage",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "default": "{\"op\": 6, \"d\": {\"requestType\": \"GetStats\", \"requestId\": 0, \"requestData\": {\"foo\": \"bar\"}}}"
+        }
       }
-   }
+    },
+    "Raw OBS Request": {
+      "menu": "",
+      "callback": "sendRawOBSRequest",
+      "parameters": {
+        "requestType": {
+          "type": "String",
+          "default": "GetStats"
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "requestData": {
+          "type": "String",
+          "default": "{\"foo\": \"bar\"}"
+        }
+      }
+    },
+    "GetPersistentData": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"realm\", \"String\"], [\"slotName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetPersistentData",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "realm": {
+          "type": "String",
+          "description": "Required: The data realm to select. `OBS_WEBSOCKET_DATA_REALM_GLOBAL` or `OBS_WEBSOCKET_DATA_REALM_PROFILE`"
+        },
+        "slotName": {
+          "type": "String",
+          "description": "Required: The name of the slot to retrieve data from"
+        }
+      }
+    },
+    "SetPersistentData": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"realm\", \"String\"], [\"slotName\", \"String\"], [\"slotValue\", \"Any\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetPersistentData",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "realm": {
+          "type": "String",
+          "description": "Required: The data realm to select. `OBS_WEBSOCKET_DATA_REALM_GLOBAL` or `OBS_WEBSOCKET_DATA_REALM_PROFILE`"
+        },
+        "slotName": {
+          "type": "String",
+          "description": "Required: The name of the slot to retrieve data from"
+        },
+        "slotValue": {
+          "type": "String",
+          "description": "Required: The value to apply to the slot"
+        }
+      }
+    },
+    "GetSceneCollectionList": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneCollectionList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetCurrentSceneCollection": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneCollectionName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetCurrentSceneCollection",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneCollectionName": {
+          "type": "String",
+          "description": "Required: Name of the scene collection to switch to"
+        }
+      }
+    },
+    "CreateSceneCollection": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneCollectionName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "CreateSceneCollection",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneCollectionName": {
+          "type": "String",
+          "description": "Required: Name for the new scene collection"
+        }
+      }
+    },
+    "GetProfileList": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetProfileList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetCurrentProfile": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"profileName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetCurrentProfile",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "profileName": {
+          "type": "String",
+          "description": "Required: Name of the profile to switch to"
+        }
+      }
+    },
+    "CreateProfile": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"profileName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "CreateProfile",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "profileName": {
+          "type": "String",
+          "description": "Required: Name for the new profile"
+        }
+      }
+    },
+    "RemoveProfile": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"profileName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "RemoveProfile",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "profileName": {
+          "type": "String",
+          "description": "Required: Name of the profile to remove"
+        }
+      }
+    },
+    "GetProfileParameter": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"parameterCategory\", \"String\"], [\"parameterName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetProfileParameter",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "parameterCategory": {
+          "type": "String",
+          "description": "Required: Category of the parameter to get"
+        },
+        "parameterName": {
+          "type": "String",
+          "description": "Required: Name of the parameter to get"
+        }
+      }
+    },
+    "SetProfileParameter": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"parameterCategory\", \"String\"], [\"parameterName\", \"String\"], [\"parameterValue\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetProfileParameter",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "parameterCategory": {
+          "type": "String",
+          "description": "Required: Category of the parameter to set"
+        },
+        "parameterName": {
+          "type": "String",
+          "description": "Required: Name of the parameter to set"
+        },
+        "parameterValue": {
+          "type": "String",
+          "description": "Required: Value of the parameter to set. Use `null` to delete"
+        }
+      }
+    },
+    "GetVideoSettings": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetVideoSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetVideoSettings": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"fpsNumerator\", \"Number\"], [\"fpsDenominator\", \"Number\"], [\"baseWidth\", \"Number\"], [\"baseHeight\", \"Number\"], [\"outputWidth\", \"Number\"], [\"outputHeight\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetVideoSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "fpsNumerator": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "fpsDenominator": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "baseWidth": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "baseHeight": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "outputWidth": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "outputHeight": {
+          "type": "Float",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetStreamServiceSettings": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetStreamServiceSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetStreamServiceSettings": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"streamServiceType\", \"String\"], [\"streamServiceSettings\", \"Object\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetStreamServiceSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "streamServiceType": {
+          "type": "String",
+          "description": "Required: Type of stream service to apply. Example: `rtmp_common` or `rtmp_custom`"
+        },
+        "streamServiceSettings": {
+          "type": "String",
+          "description": "Required: Settings to apply to the service"
+        }
+      }
+    },
+    "GetRecordDirectory": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetRecordDirectory",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetRecordDirectory": {
+      "menu": "Config",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"recordDirectory\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetRecordDirectory",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "recordDirectory": {
+          "type": "String",
+          "description": "Required: Output directory"
+        }
+      }
+    },
+    "GetSourceFilterKindList": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSourceFilterKindList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetSourceFilterList": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSourceFilterList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetSourceFilterDefaultSettings": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"filterKind\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSourceFilterDefaultSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "filterKind": {
+          "type": "String",
+          "description": "Required: Filter kind to get the default settings for"
+        }
+      }
+    },
+    "CreateSourceFilter": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"filterName\", \"String\"], [\"filterKind\", \"String\"], [\"filterSettings\", \"Object\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "CreateSourceFilter",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "filterName": {
+          "type": "String",
+          "description": "Required: Name of the new filter to be created"
+        },
+        "filterKind": {
+          "type": "String",
+          "description": "Required: The kind of filter to be created"
+        },
+        "filterSettings": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "RemoveSourceFilter": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"filterName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "RemoveSourceFilter",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "filterName": {
+          "type": "String",
+          "description": "Required: Name of the filter to remove"
+        }
+      }
+    },
+    "SetSourceFilterName": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"filterName\", \"String\"], [\"newFilterName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSourceFilterName",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "filterName": {
+          "type": "String",
+          "description": "Required: Current name of the filter"
+        },
+        "newFilterName": {
+          "type": "String",
+          "description": "Required: New name for the filter"
+        }
+      }
+    },
+    "GetSourceFilter": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"filterName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSourceFilter",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "filterName": {
+          "type": "String",
+          "description": "Required: Name of the filter"
+        }
+      }
+    },
+    "SetSourceFilterIndex": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"filterName\", \"String\"], [\"filterIndex\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSourceFilterIndex",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "filterName": {
+          "type": "String",
+          "description": "Required: Name of the filter"
+        },
+        "filterIndex": {
+          "type": "Integer",
+          "description": "Required: New index position of the filter"
+        }
+      }
+    },
+    "SetSourceFilterSettings": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"filterName\", \"String\"], [\"filterSettings\", \"Object\"], [\"overlay\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSourceFilterSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "filterName": {
+          "type": "String",
+          "description": "Required: Name of the filter to set the settings of"
+        },
+        "filterSettings": {
+          "type": "String",
+          "description": "Required: Object of settings to apply"
+        },
+        "overlay": {
+          "type": "Boolean",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetSourceFilterEnabled": {
+      "menu": "Filters",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"filterName\", \"String\"], [\"filterEnabled\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSourceFilterEnabled",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "filterName": {
+          "type": "String",
+          "description": "Required: Name of the filter"
+        },
+        "filterEnabled": {
+          "type": "Boolean",
+          "description": "Required: New enable state of the filter"
+        }
+      }
+    },
+    "GetVersion": {
+      "menu": "General",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetVersion",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetStats": {
+      "menu": "General",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetStats",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "BroadcastCustomEvent": {
+      "menu": "General",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"eventData\", \"Object\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "BroadcastCustomEvent",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "eventData": {
+          "type": "String",
+          "description": "Required: Data payload to emit to all receivers"
+        }
+      }
+    },
+    "CallVendorRequest": {
+      "menu": "General",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"vendorName\", \"String\"], [\"requestType\", \"String\"], [\"requestData\", \"Object\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "CallVendorRequest",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "vendorName": {
+          "type": "String",
+          "description": "Required: Name of the vendor to use"
+        },
+        "requestType": {
+          "type": "String",
+          "description": "Required: The request type to call"
+        },
+        "requestData": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetHotkeyList": {
+      "menu": "General",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetHotkeyList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "TriggerHotkeyByName": {
+      "menu": "General",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"hotkeyName\", \"String\"], [\"contextName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "TriggerHotkeyByName",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "hotkeyName": {
+          "type": "String",
+          "description": "Required: Name of the hotkey to trigger"
+        },
+        "contextName": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "TriggerHotkeyByKeySequence": {
+      "menu": "General",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"keyId\", \"String\"], [\"keyModifiers\", \"Object\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "TriggerHotkeyByKeySequence",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "keyId": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "keyModifiers": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "Sleep": {
+      "menu": "General",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sleepMillis\", \"Number\"], [\"sleepFrames\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "Sleep",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sleepMillis": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "sleepFrames": {
+          "type": "Integer",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetInputList": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputKind\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputKind": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetInputKindList": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"unversioned\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputKindList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "unversioned": {
+          "type": "Boolean",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetSpecialInputs": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSpecialInputs",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "CreateInput": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"inputName\", \"String\"], [\"inputKind\", \"String\"], [\"inputSettings\", \"Object\"], [\"sceneItemEnabled\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "CreateInput",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Required: Name of the new input to created"
+        },
+        "inputKind": {
+          "type": "String",
+          "description": "Required: The kind of input to be created"
+        },
+        "inputSettings": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemEnabled": {
+          "type": "Boolean",
+          "description": "Optional: "
+        }
+      }
+    },
+    "RemoveInput": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "RemoveInput",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetInputName": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"newInputName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetInputName",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "newInputName": {
+          "type": "String",
+          "description": "Required: New name for the input"
+        }
+      }
+    },
+    "GetInputDefaultSettings": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputKind\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputDefaultSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputKind": {
+          "type": "String",
+          "description": "Required: Input kind to get the default settings for"
+        }
+      }
+    },
+    "GetInputSettings": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetInputSettings": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"inputSettings\", \"Object\"], [\"overlay\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetInputSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputSettings": {
+          "type": "String",
+          "description": "Required: Object of settings to apply"
+        },
+        "overlay": {
+          "type": "Boolean",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetInputMute": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputMute",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetInputMute": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"inputMuted\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetInputMute",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputMuted": {
+          "type": "Boolean",
+          "description": "Required: Whether to mute the input or not"
+        }
+      }
+    },
+    "ToggleInputMute": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "ToggleInputMute",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetInputVolume": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputVolume",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetInputVolume": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"inputVolumeMul\", \"Number\"], [\"inputVolumeDb\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetInputVolume",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputVolumeMul": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "inputVolumeDb": {
+          "type": "Float",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetInputAudioBalance": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputAudioBalance",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetInputAudioBalance": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"inputAudioBalance\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetInputAudioBalance",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputAudioBalance": {
+          "type": "Float",
+          "description": "Required: New audio balance value"
+        }
+      }
+    },
+    "GetInputAudioSyncOffset": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputAudioSyncOffset",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetInputAudioSyncOffset": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"inputAudioSyncOffset\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetInputAudioSyncOffset",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputAudioSyncOffset": {
+          "type": "Float",
+          "description": "Required: New audio sync offset in milliseconds"
+        }
+      }
+    },
+    "GetInputAudioMonitorType": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputAudioMonitorType",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetInputAudioMonitorType": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"monitorType\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetInputAudioMonitorType",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "monitorType": {
+          "type": "String",
+          "description": "Required: Audio monitor type"
+        }
+      }
+    },
+    "GetInputAudioTracks": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputAudioTracks",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetInputAudioTracks": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"inputAudioTracks\", \"Object\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetInputAudioTracks",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputAudioTracks": {
+          "type": "String",
+          "description": "Required: Track settings to apply"
+        }
+      }
+    },
+    "GetInputPropertiesListPropertyItems": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"propertyName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetInputPropertiesListPropertyItems",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "propertyName": {
+          "type": "String",
+          "description": "Required: Name of the list property to get the items of"
+        }
+      }
+    },
+    "PressInputPropertiesButton": {
+      "menu": "Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"propertyName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "PressInputPropertiesButton",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "propertyName": {
+          "type": "String",
+          "description": "Required: Name of the button property to press"
+        }
+      }
+    },
+    "GetMediaInputStatus": {
+      "menu": "Media Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetMediaInputStatus",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetMediaInputCursor": {
+      "menu": "Media Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"mediaCursor\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetMediaInputCursor",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "mediaCursor": {
+          "type": "Float",
+          "description": "Required: New cursor position to set"
+        }
+      }
+    },
+    "OffsetMediaInputCursor": {
+      "menu": "Media Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"mediaCursorOffset\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "OffsetMediaInputCursor",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "mediaCursorOffset": {
+          "type": "Float",
+          "description": "Required: Value to offset the current cursor position by"
+        }
+      }
+    },
+    "TriggerMediaInputAction": {
+      "menu": "Media Inputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"], [\"mediaAction\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "TriggerMediaInputAction",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "mediaAction": {
+          "type": "String",
+          "description": "Required: Identifier of the `ObsMediaInputAction` enum"
+        }
+      }
+    },
+    "GetVirtualCamStatus": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetVirtualCamStatus",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "ToggleVirtualCam": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "ToggleVirtualCam",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "StartVirtualCam": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StartVirtualCam",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "StopVirtualCam": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StopVirtualCam",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetReplayBufferStatus": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetReplayBufferStatus",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "ToggleReplayBuffer": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "ToggleReplayBuffer",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "StartReplayBuffer": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StartReplayBuffer",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "StopReplayBuffer": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StopReplayBuffer",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SaveReplayBuffer": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SaveReplayBuffer",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetLastReplayBufferReplay": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetLastReplayBufferReplay",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetOutputList": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetOutputList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetOutputStatus": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"outputName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetOutputStatus",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "outputName": {
+          "type": "String",
+          "description": "Required: Output name"
+        }
+      }
+    },
+    "ToggleOutput": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"outputName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "ToggleOutput",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "outputName": {
+          "type": "String",
+          "description": "Required: Output name"
+        }
+      }
+    },
+    "StartOutput": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"outputName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StartOutput",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "outputName": {
+          "type": "String",
+          "description": "Required: Output name"
+        }
+      }
+    },
+    "StopOutput": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"outputName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StopOutput",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "outputName": {
+          "type": "String",
+          "description": "Required: Output name"
+        }
+      }
+    },
+    "GetOutputSettings": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"outputName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetOutputSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "outputName": {
+          "type": "String",
+          "description": "Required: Output name"
+        }
+      }
+    },
+    "SetOutputSettings": {
+      "menu": "Outputs",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"outputName\", \"String\"], [\"outputSettings\", \"Object\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetOutputSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "outputName": {
+          "type": "String",
+          "description": "Required: Output name"
+        },
+        "outputSettings": {
+          "type": "String",
+          "description": "Required: Output settings"
+        }
+      }
+    },
+    "GetRecordStatus": {
+      "menu": "Record",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetRecordStatus",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "ToggleRecord": {
+      "menu": "Record",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "ToggleRecord",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "StartRecord": {
+      "menu": "Record",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StartRecord",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "StopRecord": {
+      "menu": "Record",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StopRecord",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "ToggleRecordPause": {
+      "menu": "Record",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "ToggleRecordPause",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "PauseRecord": {
+      "menu": "Record",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "PauseRecord",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "ResumeRecord": {
+      "menu": "Record",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "ResumeRecord",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SplitRecordFile": {
+      "menu": "Record",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SplitRecordFile",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "CreateRecordChapter": {
+      "menu": "Record",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"chapterName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "CreateRecordChapter",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "chapterName": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetSceneItemList": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneItemList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetGroupSceneItemList": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetGroupSceneItemList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetSceneItemId": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sourceName\", \"String\"], [\"searchOffset\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneItemId",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Required: Name of the source to find"
+        },
+        "searchOffset": {
+          "type": "Float",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetSceneItemSource": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneItemSource",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        }
+      }
+    },
+    "CreateSceneItem": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"sceneItemEnabled\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "CreateSceneItem",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemEnabled": {
+          "type": "Boolean",
+          "description": "Optional: "
+        }
+      }
+    },
+    "RemoveSceneItem": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "RemoveSceneItem",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        }
+      }
+    },
+    "DuplicateSceneItem": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"], [\"destinationSceneName\", \"String\"], [\"destinationSceneUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "DuplicateSceneItem",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        },
+        "destinationSceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "destinationSceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetSceneItemTransform": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneItemTransform",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        }
+      }
+    },
+    "SetSceneItemTransform": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"], [\"sceneItemTransform\", \"Object\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSceneItemTransform",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        },
+        "sceneItemTransform": {
+          "type": "String",
+          "description": "Required: Object containing scene item transform info to update"
+        }
+      }
+    },
+    "GetSceneItemEnabled": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneItemEnabled",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        }
+      }
+    },
+    "SetSceneItemEnabled": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"], [\"sceneItemEnabled\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSceneItemEnabled",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        },
+        "sceneItemEnabled": {
+          "type": "Boolean",
+          "description": "Required: New enable state of the scene item"
+        }
+      }
+    },
+    "GetSceneItemLocked": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneItemLocked",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        }
+      }
+    },
+    "SetSceneItemLocked": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"], [\"sceneItemLocked\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSceneItemLocked",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        },
+        "sceneItemLocked": {
+          "type": "Boolean",
+          "description": "Required: New lock state of the scene item"
+        }
+      }
+    },
+    "GetSceneItemIndex": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneItemIndex",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        }
+      }
+    },
+    "SetSceneItemIndex": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"], [\"sceneItemIndex\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSceneItemIndex",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        },
+        "sceneItemIndex": {
+          "type": "Integer",
+          "description": "Required: New index position of the scene item"
+        }
+      }
+    },
+    "GetSceneItemBlendMode": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneItemBlendMode",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        }
+      }
+    },
+    "SetSceneItemBlendMode": {
+      "menu": "Scene Items",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"sceneItemId\", \"Number\"], [\"sceneItemBlendMode\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSceneItemBlendMode",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneItemId": {
+          "type": "Integer",
+          "description": "Required: Numeric ID of the scene item"
+        },
+        "sceneItemBlendMode": {
+          "type": "String",
+          "description": "Required: New blend mode"
+        }
+      }
+    },
+    "GetSceneList": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetGroupList": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetGroupList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetCurrentProgramScene": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetCurrentProgramScene",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetCurrentProgramScene": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetCurrentProgramScene",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetCurrentPreviewScene": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetCurrentPreviewScene",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetCurrentPreviewScene": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetCurrentPreviewScene",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "CreateScene": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "CreateScene",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Required: Name for the new scene"
+        }
+      }
+    },
+    "RemoveScene": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "RemoveScene",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetSceneName": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"newSceneName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSceneName",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "newSceneName": {
+          "type": "String",
+          "description": "Required: New name for the scene"
+        }
+      }
+    },
+    "GetSceneSceneTransitionOverride": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneSceneTransitionOverride",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SetSceneSceneTransitionOverride": {
+      "menu": "Scenes",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sceneName\", \"String\"], [\"sceneUuid\", \"String\"], [\"transitionName\", \"String\"], [\"transitionDuration\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetSceneSceneTransitionOverride",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sceneName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sceneUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "transitionName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "transitionDuration": {
+          "type": "Float",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetSourceActive": {
+      "menu": "Sources",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSourceActive",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetSourceScreenshot": {
+      "menu": "Sources",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"imageFormat\", \"String\"], [\"imageWidth\", \"Number\"], [\"imageHeight\", \"Number\"], [\"imageCompressionQuality\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSourceScreenshot",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "imageFormat": {
+          "type": "String",
+          "description": "Required: Image compression format to use. Use `GetVersion` to get compatible image formats"
+        },
+        "imageWidth": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "imageHeight": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "imageCompressionQuality": {
+          "type": "Float",
+          "description": "Optional: "
+        }
+      }
+    },
+    "SaveSourceScreenshot": {
+      "menu": "Sources",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"imageFormat\", \"String\"], [\"imageFilePath\", \"String\"], [\"imageWidth\", \"Number\"], [\"imageHeight\", \"Number\"], [\"imageCompressionQuality\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SaveSourceScreenshot",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "imageFormat": {
+          "type": "String",
+          "description": "Required: Image compression format to use. Use `GetVersion` to get compatible image formats"
+        },
+        "imageFilePath": {
+          "type": "String",
+          "description": "Required: Path to save the screenshot file to. Eg. `C:\\Users\\user\\Desktop\\screenshot.png`"
+        },
+        "imageWidth": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "imageHeight": {
+          "type": "Float",
+          "description": "Optional: "
+        },
+        "imageCompressionQuality": {
+          "type": "Float",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetStreamStatus": {
+      "menu": "Stream",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetStreamStatus",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "ToggleStream": {
+      "menu": "Stream",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "ToggleStream",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "StartStream": {
+      "menu": "Stream",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StartStream",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "StopStream": {
+      "menu": "Stream",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "StopStream",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SendStreamCaption": {
+      "menu": "Stream",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"captionText\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SendStreamCaption",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "captionText": {
+          "type": "String",
+          "description": "Required: Caption text"
+        }
+      }
+    },
+    "GetTransitionKindList": {
+      "menu": "Transitions",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetTransitionKindList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetSceneTransitionList": {
+      "menu": "Transitions",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetSceneTransitionList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "GetCurrentSceneTransition": {
+      "menu": "Transitions",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetCurrentSceneTransition",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetCurrentSceneTransition": {
+      "menu": "Transitions",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"transitionName\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetCurrentSceneTransition",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "transitionName": {
+          "type": "String",
+          "description": "Required: Name of the transition to make active"
+        }
+      }
+    },
+    "SetCurrentSceneTransitionDuration": {
+      "menu": "Transitions",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"transitionDuration\", \"Number\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetCurrentSceneTransitionDuration",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "transitionDuration": {
+          "type": "Float",
+          "description": "Required: Duration in milliseconds"
+        }
+      }
+    },
+    "SetCurrentSceneTransitionSettings": {
+      "menu": "Transitions",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"transitionSettings\", \"Object\"], [\"overlay\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetCurrentSceneTransitionSettings",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "transitionSettings": {
+          "type": "String",
+          "description": "Required: Settings object to apply to the transition. Can be `{}`"
+        },
+        "overlay": {
+          "type": "Boolean",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetCurrentSceneTransitionCursor": {
+      "menu": "Transitions",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetCurrentSceneTransitionCursor",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "TriggerStudioModeTransition": {
+      "menu": "Transitions",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "TriggerStudioModeTransition",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetTBarPosition": {
+      "menu": "Transitions",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"position\", \"Number\"], [\"release\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetTBarPosition",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "position": {
+          "type": "Float",
+          "description": "Required: New position"
+        },
+        "release": {
+          "type": "Boolean",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetStudioModeEnabled": {
+      "menu": "Ui",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetStudioModeEnabled",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "SetStudioModeEnabled": {
+      "menu": "Ui",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"studioModeEnabled\", \"Boolean\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "SetStudioModeEnabled",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "studioModeEnabled": {
+          "type": "Boolean",
+          "description": "Required: True == Enabled, False == Disabled"
+        }
+      }
+    },
+    "OpenInputPropertiesDialog": {
+      "menu": "Ui",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "OpenInputPropertiesDialog",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "OpenInputFiltersDialog": {
+      "menu": "Ui",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "OpenInputFiltersDialog",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "OpenInputInteractDialog": {
+      "menu": "Ui",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"inputName\", \"String\"], [\"inputUuid\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "OpenInputInteractDialog",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "inputName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "inputUuid": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "GetMonitorList": {
+      "menu": "Ui",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": []}"
+        },
+        "request": {
+          "type": "String",
+          "default": "GetMonitorList",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        }
+      }
+    },
+    "OpenVideoMixProjector": {
+      "menu": "Ui",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"videoMixType\", \"String\"], [\"monitorIndex\", \"Number\"], [\"projectorGeometry\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "OpenVideoMixProjector",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "videoMixType": {
+          "type": "String",
+          "description": "Required: Type of mix to open"
+        },
+        "monitorIndex": {
+          "type": "Integer",
+          "description": "Optional: "
+        },
+        "projectorGeometry": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    },
+    "OpenSourceProjector": {
+      "menu": "Ui",
+      "callback": "genericCommandExecutor",
+      "parameters": {
+        "data": {
+          "type": "String",
+          "enabled": false,
+          "default": "{\"fieldList\": [[\"sourceName\", \"String\"], [\"sourceUuid\", \"String\"], [\"monitorIndex\", \"Number\"], [\"projectorGeometry\", \"String\"]]}"
+        },
+        "request": {
+          "type": "String",
+          "default": "OpenSourceProjector",
+          "enabled": false
+        },
+        "requestId": {
+          "type": "Integer",
+          "default": "0"
+        },
+        "sourceName": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "sourceUuid": {
+          "type": "String",
+          "description": "Optional: "
+        },
+        "monitorIndex": {
+          "type": "Integer",
+          "description": "Optional: "
+        },
+        "projectorGeometry": {
+          "type": "String",
+          "description": "Optional: "
+        }
+      }
+    }
+  }
 }
