@@ -13,7 +13,6 @@ By generating code, and using logic that parses the official protocol, I hope it
 * [How to use](#how-to-use)
   * [Values](#values)
   * [Requests](#requests)
-* [Origins](#origins)
   * [Contributing](#contributing)
   * [Acknowledgments](#acknowledgments)
 <!-- TOC -->
@@ -47,12 +46,6 @@ For more info on that, check out the official protocol [OBS Websocket Protocol D
 
 And you may send any other requests that are pre-mapped for you based on the OBS websocket API.
 
-
-# Origins
-This module is almost rebuilt from the scratch, but it is originally forked from the awesome work of [Edrig](https://github.com/Edrig/OBS-Websocket-Chataigne-Module)!
-
-
-
 <!-- Contributing -->
 ## Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -67,5 +60,6 @@ Don't forget to give the project a star! Thanks again!
 5. Open a Pull Request
 
 ## Acknowledgments
+This module is almost rebuilt from the scratch, but it is originally forked from the awesome work of [Edrig](https://github.com/Edrig/OBS-Websocket-Chataigne-Module)!
 
 Thanks to [Benjamin Kuperberg ](https://benjamin.kuperberg.fr/) for his amazing work of art, [Chataigne](http://benjamin.kuperberg.fr/chataigne/en).
