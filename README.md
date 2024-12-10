@@ -39,7 +39,7 @@ puts them under three categories:
 
 ![](docs/values.png)
 
-For example, the `merged.programScene.sceneName` might come from any of these messages: GetSceneList (r), CurrentProgramSceneChanged (r), GetCurrentProgramScene (e) 
+For example, the `merged.programScene.sceneName` might come from any of these messages: GetSceneList (req), CurrentProgramSceneChanged (event), GetCurrentProgramScene (req) 
 but in any of these inputs it will be also mapped to the mentioned key.
 
 ## Requests
