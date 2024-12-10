@@ -1,43 +1,57 @@
-# OBS-Websocket-Chataigne-Module
-A simple module to use OBS Websocket V5 with the Chataigne Software
+# OBS Websocket Advanced module for Chataigne
+An advanced module to use OBS Websocket V5 within the [Chataigne](http://benjamin.kuperberg.fr/chataigne/en) Software.
 
-To know all parameters for your requests, see protocol.md of OBS-Websocket at this link : 
- <a href="https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests" target="blank">Protocol.md OBS_Websocket</a> 
+This module tries to use the least ammount of "manual work", and build on the official websocket protocol definition as much as possible.
 
-link :  <a href="http://benjamin.kuperberg.fr/chataigne/en" target="_blank">Chataigne Software </a> By Benjamin Kuperberg
+By generating code, and using logic that parses the official protocol, I hope it will be easier to maintain.
+
+<h1>Table Of contents</h1>
+
+<!-- TOC -->
+* [OBS Websocket Advanced module for Chataigne](#obs-websocket-advanced-module-for-chataigne)
+* [Prerequisites](#prerequisites)
+* [How to use](#how-to-use)
+  * [Values](#values)
+  * [Requests](#requests)
+* [Origins](#origins)
+  * [Contributing](#contributing)
+  * [Acknowledgments](#acknowledgments)
+<!-- TOC -->
+
+# Prerequisites
+ * [Chataigne](https://benjamin.kuperberg.fr/chataigne/en) Version: 1.9.24+
+ * [OBS](https://obsproject.com) Version: 28+
 
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#Prerequisites">Getting Started</a>
-      <ul>
-        <li><a href="#Chataigne">Chataigne</a></li>
-        <li><a href="#obs-websocket">obs-websocket</a></li>
-      </ul>
-    </li>
+# How to use
+ * Enable the Websocket server in OBS (Tools -> Websocket Server Settings) 
+ * Add this module to Chataigne, and set up the Websocket connection
+
+## Values
+This module automatically parses all the events and responses that are coming from OBS, and
+puts them under three categories:
+
+ * Values / **Requests**: This is where the responses are put for any request that is being sent
+ * Values / **Events**: This is where the event data is put for any event that is coming in
+ * Values / **Merged**: These can be coming from both of the above sources and this is where they are mapped together.
+![](docs/values.png)
+
+For example, the `merged.programScene.sceneName` might come from any of these messages: GetSceneList (r), CurrentProgramSceneChanged (r), GetCurrentProgramScene (e) 
+but in any of these inputs it will be also mapped to the mentioned key.
+
+## Requests
+You may send a raw websocket message, if you are sure of what you are doing with the Templates/+/Raw WS Message.
+
+You may send a raw OBS message, if you are sure of what you are doing with the Templates/+/Raw OBS Message.
+For more info on that, check out the official protocol [OBS Websocket Protocol Definition](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests).
+
+And you may send any other requests that are pre-mapped for you based on the OBS websocket API.
 
 
-    <li><a href="#Contributing">Contributing</a></li>
+# Origins
+This module is almost rebuilt from the scratch, but it is originally forked from the awesome work of [Edrig](https://github.com/Edrig/OBS-Websocket-Chataigne-Module)!
 
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
 
-<!-- Prerequisites -->
-## Prerequisites
-
-### Chataigne
-Compatible version with module: 1.9.8b3 or more<br />
-Creator: Benjamin Kuperberg<br />
-GitHub: <a href="https://github.com/benkuper/Chataigne" target="_blank">Chataigne website</a><br />
-Website: <a href="http://benjamin.kuperberg.fr/chataigne/en" target="_blank">Chataigne website</a><br />
-Resum: Chataigne is made with one goal in mind : create a common tool for artists, technicians and developers who wish to use technology and synchronize softwares for shows, interactive installations or prototyping. It aims to be as simple as possible for basic interactions, but can be easily extended to create complex interactions.<br />
-
-### obs-websocket
-Compatible version with module: obs-websocket 5 or more<br />
 
 <!-- Contributing -->
 ## Contributing
@@ -52,22 +66,6 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<!-- Contact -->
-## Contact
-
-Tainalo2: 	GitHub - https://github.com/tainalo2
-			Twitch - https://www.twitch.tv/tainalo2
-			YouTube - https://www.youtube.com/channel/UC2MYhnsKCZJs3B3wROu1B8w
-			
-DrMicka: 	GitHub - https://github.com/DrMicka
-			Twitch - https://www.twitch.tv/dr_micka
-			YouTube - https://www.youtube.com/channel/UCX11UiUYZ_dqAi-FaR2IvxA
-
-Edrig: GitHub - https://github.com/Edrig
-
-
-Project Link: [https://github.com/Edrig/OBS-Websocket-Chataigne-Module/](https://github.com/Edrig/OBS-Websocket-Chataigne-Module/)
-
-<!-- Acknowledgments -->
 ## Acknowledgments
-Thanks to Benjamin Kuperberg for his help and his reactivity to upgrade the Chataigne software to make it compatible with this module
+
+Thanks to [Benjamin Kuperberg ](https://benjamin.kuperberg.fr/) for his amazing work of art, [Chataigne](http://benjamin.kuperberg.fr/chataigne/en).
