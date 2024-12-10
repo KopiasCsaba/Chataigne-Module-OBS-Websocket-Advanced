@@ -1,6 +1,9 @@
 # OBS Websocket Advanced module for Chataigne
 An advanced module to use OBS Websocket V5 within the [Chataigne](http://benjamin.kuperberg.fr/chataigne/en) Software.
 
+This module is in alpha state, brand new and bugs might exist.
+Feel free to open issues or PRs about those!
+
 This module tries to use the least ammount of "manual work", and build on the official websocket protocol definition as much as possible.
 
 By generating code, and using logic that parses the official protocol, I hope it will be easier to maintain.
