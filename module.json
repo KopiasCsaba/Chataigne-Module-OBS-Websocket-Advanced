@@ -44,7 +44,7 @@
       },
       "Config": {
         "type": "Boolean",
-        "default": false
+        "default": true
       },
       "Scenes": {
         "type": "Boolean",
@@ -56,15 +56,15 @@
       },
       "Transitions": {
         "type": "Boolean",
-        "default": false
+        "default": true
       },
       "Filters": {
         "type": "Boolean",
-        "default": false
+        "default": true
       },
       "Outputs": {
         "type": "Boolean",
-        "default": false
+        "default": true
       },
       "SceneItems": {
         "type": "Boolean",
@@ -72,11 +72,11 @@
       },
       "MediaInputs": {
         "type": "Boolean",
-        "default": false
+        "default": true
       },
       "Vendors": {
         "type": "Boolean",
-        "default": false
+        "default": true
       },
       "Ui": {
         "type": "Boolean",
@@ -96,13 +96,12 @@
       },
       "SceneItemTransformChanged": {
         "type": "Boolean",
-        "default": true
+        "default": false
       }
     },
-    "See all requests of OBS": {
+    "Documentation": {
       "type": "String",
-      "default": "https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests ",
-      "readOnly": true
+      "default": "https://github.com/KopiasCsaba/Chataigne-Module-OBS-Websocket-Advanced"
     }
   },
   "values": {
