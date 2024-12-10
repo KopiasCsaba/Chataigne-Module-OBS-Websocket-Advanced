@@ -36,6 +36,7 @@ puts them under three categories:
  * Values / **Requests**: This is where the responses are put for any request that is being sent
  * Values / **Events**: This is where the event data is put for any event that is coming in
  * Values / **Merged**: These can be coming from both of the above sources and this is where they are mapped together.
+
 ![](docs/values.png)
 
 For example, the `merged.programScene.sceneName` might come from any of these messages: GetSceneList (r), CurrentProgramSceneChanged (r), GetCurrentProgramScene (e) 
