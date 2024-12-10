@@ -116,7 +116,7 @@
     }
   },
   "scripts": [
-    "OBSNG.js"
+    "OBSAdvanced.js"
   ],
   "commands": {
     "Raw WS Message": {
