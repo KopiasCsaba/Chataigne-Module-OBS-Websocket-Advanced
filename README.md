@@ -13,6 +13,9 @@ By generating code, and using logic that parses the official protocol, I hope it
 * [How to use](#how-to-use)
   * [Values](#values)
   * [Requests](#requests)
+    * [Pre-mapped request templates](#pre-mapped-request-templates)
+    * [Raw OBS Message](#raw-obs-message)
+    * [Raw websocket message](#raw-websocket-message)
   * [Contributing](#contributing)
   * [Acknowledgments](#acknowledgments)
 <!-- TOC -->
@@ -39,14 +42,29 @@ For example, the `merged.programScene.sceneName` might come from any of these me
 but in any of these inputs it will be also mapped to the mentioned key.
 
 ## Requests
-You may send a raw websocket message, if you are sure of what you are doing with the Templates/+/Raw WS Message.
 
+### Pre-mapped request templates
+You may send requests that are pre-mapped for you based on the OBS websocket API.
+
+![templates.png](docs/templates.png)
+
+For example:
+
+![template.png](docs/template.png)
+
+
+### Raw OBS Message
 You may send a raw OBS message, if you are sure of what you are doing with the Templates/+/Raw OBS Message.
 For more info on that, check out the official protocol [OBS Websocket Protocol Definition](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests).
 
-And you may send any other requests that are pre-mapped for you based on the OBS websocket API.
+![rawobs.png](docs/rawobs.png)
 
-<!-- Contributing -->
+
+### Raw websocket message
+Or you may send a raw websocket message, if you are sure of what you are doing with the Templates/+/Raw WS Message.
+
+![rawws.png](docs/rawws.png)
+
 ## Contributing
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 

@@ -3,7 +3,7 @@
   "type": "WebSocket Client",
   "path": "Software",
   "version": "3.0.0",
-  "description": "Advanced Module to control OBS by Websocket. Learn more: https://github.com/KopiasCsaba/Chataigne-Module-OBS-Websocket-Advanced \nThis module is based on Edrig's awesome work: https://github.com/Edrig/OBS-Websocket-Chataigne-Module",
+  "description": "Advanced Module to control OBS by Websocket. Uses logic and generated code to parse the official websocket protocol of OBS: it makes it more robust and easy to maintain. Learn more: https://github.com/KopiasCsaba/Chataigne-Module-OBS-Websocket-Advanced",
   "url": "https://github.com/KopiasCsaba/Chataigne-Module-OBS-Websocket-Advanced",
   "downloadURL": "https://github.com/KopiasCsaba/Chataigne-Module-OBS-Websocket-Advanced/archive/main.zip",
   "hasInput": true,
